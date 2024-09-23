@@ -1,9 +1,6 @@
 # Copyright 2020 by Chua Teck Lee.
 # All rights reserved.
 
-#USING SQLITE3 DATABASE TO STORE and READ info
-#USING DB FOR SQLITE DATABASE TO EDIT/READ
-
 import sqlite3
 from sqlite3 import Error
 
@@ -19,16 +16,15 @@ class Input():
         self.characterList = characterList
 
 def create_connection(db_file):
-    """ create a database connection to a SQLite database """
+    """Create a database connection to a SQLite database"""
     conn = None
     try:
         conn = sqlite3.connect(db_file)
     except Error as e:
         print(e)
-    
     return conn
 
-#data
+# Data
 Inputs = []
 
 conn = create_connection(Utility.MakePath(r'\..\database.db'))
@@ -38,12 +34,20 @@ cur.execute("SELECT * FROM Inputs")
 rows = cur.fetchall()
 
 for row in rows:
-    if(row[5] != None) :
-        Inputs.append( Input(row[0], row[1], row[2], row[3], tuple(eval(row[4])), row[5].split(',') ))
+    if(row[5] != None):
+        Inputs.append(Input(row[0], row[1], row[2], row[3], tuple(eval(row[4])), row[5].split(',')))
     else:
-        Inputs.append( Input(row[0], row[1], row[2], row[3], tuple(eval(row[4])), row[5] ))
+        Inputs.append(Input(row[0], row[1], row[2], row[3], tuple(eval(row[4])), row[5]))
 
-
+# Add 'SPACE' input
+Inputs.append(Input(
+    name='SPACE',
+    filepath=r"\Images\Inputs\space.png",  # You need to create this image or handle it specially
+    display=' ',
+    fileDisplay='_',
+    buttonLayout=(5, 5),  # Adjust position as needed
+    characterList=None
+))
 
 characters = []
 
@@ -53,4 +57,3 @@ rows = cur.fetchall()
 
 for row in rows:
     characters.append(row[0])
-#     characters.append( Input(row[0], row[1], row[2], row[3], tuple(eval(row[4])) ))
