@@ -125,6 +125,10 @@ def addInput(input):
     label.image = photo
 
     def on_click(event, idx=index):
+        global focused
+
+        focused = False
+        
         highlightInput(idx, current_input_index)
 
     label.bind("<Button-1>", on_click)
@@ -282,6 +286,10 @@ def refreshInputs():
         label.image = photo
 
         def on_click(event, idx=index):
+            global focused
+            
+            focused = False
+            
             highlightInput(idx, current_input_index)
 
         label.bind("<Button-1>", on_click)
