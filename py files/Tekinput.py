@@ -161,22 +161,28 @@ def clear():
 
 def erase():
     global current_input_index, focused
-    if current_input_index is None:
-        return
 
     # 포커싱된 상태일 때만 삭제 가능
     if focused:
         inputBuffer.pop(current_input_index)
         label = inputWidgets.pop(current_input_index)
         label.destroy()
+    else:
+        last = len(inputBuffer) - 1
+        inputBuffer.pop(last)
+        label = inputWidgets.pop(last)
+        label.destroy()
 
-        # 포커싱된 이미지 왼쪽으로 이동
-        if current_input_index > 0:
-            current_input_index -= 1
-        elif len(inputBuffer) > 0:
-            current_input_index = 0
-        else:
-            current_input_index = None
+
+    # 포커싱된 이미지 왼쪽으로 이동
+    if  current_input_index is None:
+        pass
+    elif current_input_index > 0:
+        current_input_index -= 1
+    elif len(inputBuffer) > 0:
+        current_input_index = 0
+    else:
+        current_input_index = None
 
     refreshInputs()
     generateText()
